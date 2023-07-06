@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 
 import { useFetch } from '@/hooks/useFetch';
+import { OPENAI_API_HOST, OPENAI_API_PREFIX } from '@/utils/app/const';
 
 export interface GetModelsRequestProps {
   key: string;
@@ -28,8 +29,9 @@ const useApiService = () => {
   const getModels = useCallback(
     (params: GetModelsRequestProps, signal?: AbortSignal) => {
       return fetchService.post<GetModelsRequestProps>(`/api/models`, {
-        body: { key: params.key },
+        // body: { key: params.key },
         headers: {
+          Authorization: `Bearer ${ params.key ? params.key : process.env.OPENAI_API_KEY}`,
           'Content-Type': 'application/json',
         },
         signal,
